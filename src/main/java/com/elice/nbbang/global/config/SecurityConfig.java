@@ -58,13 +58,13 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/","/login").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                         .permitAll()
 //                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/users/sign-up", "/login", "/",
+                        .requestMatchers("/api/users/sign-up", "/api/login", "/",
                                 "/api/users/check-email", "/api/users/check-nickname",
                                 "/api/users/email-certification", "/api/users/check-certification",
                                 "/api/users/phone-certification", "/api/users/phone-check", "/api/users/refresh-token",
@@ -76,17 +76,24 @@ public class SecurityConfig {
                         .requestMatchers("/hc").permitAll() //서버체크용
                         .anyRequest().authenticated()
                 )
+            .oauth2Login(oauth2 -> oauth2
+                .authorizationEndpoint(authorization -> authorization
+                    .baseUri("/api/oauth2/authorization/google")  // 커스텀 엔드포인트
+                )
+                .redirectionEndpoint(redirection -> redirection
+                    .baseUri("/api/login/oauth2/code/*") // 리디렉션 URI 패턴을 변경
+                )
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService)
+                )
+                .defaultSuccessUrl("/api/auth/google/success", true)
+            )
                 .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository, userService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)
-                        )
-                        .defaultSuccessUrl("/api/auth/google/success", true)
-                );
+                ;
 
         return http.build();
     }
@@ -94,7 +101,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://3.39.127.36:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("https://nbbang.store", "http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("access", "Cache-Control", "Content-Type", "Authorization"));
         configuration.setExposedHeaders(List.of("access"));

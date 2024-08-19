@@ -269,9 +269,8 @@ public class KakaoPayService {
 
     }
 
-
     /**
-     * 4.정기결제 userId와 ottId 필요.
+     * 4.정기결제
      */
     @Transactional
     public void subscription(Long userId, Long ottId) throws Exception {
@@ -393,7 +392,6 @@ public class KakaoPayService {
         SmsRequest smsRequest = new SmsRequest(user.getPhoneNumber(), smsMessage);
         notificationSmsProvider.sendSms(smsRequest);
     }
-
 
     /**
      * 헤더 세팅 메소드
