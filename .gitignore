@@ -1,11 +1,14 @@
+# General
 HELP.md
+
+# Gradle
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
+### STS (Spring Tool Suite) ###
 .apt_generated
 .classpath
 .factorypath
@@ -37,7 +40,35 @@ out/
 ### VS Code ###
 .vscode/
 
-### mac book ###
+### macOS ###
 .DS_Store
 src/.DS_Store
 src/main/.DS_Store
+
+# YAML configuration files (commonly used for configuration)
+*.yml
+*.yaml
+
+# Properties files (Java/Spring configuration files)
+*.properties
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Other potentially sensitive files
+config/secrets.yml
+config/application.yml
+config/*.yml
+config/*.properties
