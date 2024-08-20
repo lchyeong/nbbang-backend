@@ -45,13 +45,6 @@ out/
 src/.DS_Store
 src/main/.DS_Store
 
-# YAML configuration files (commonly used for configuration)
-*.yml
-*.yaml
-
-# Properties files (Java/Spring configuration files)
-*.properties
-
 # Environment variables
 .env
 .env.*

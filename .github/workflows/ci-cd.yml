@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Test with Gradle
+        run: ./gradlew test --no-daemon
+
+      - name: Build Docker image
+        run: |
+          docker build -t your-image-name .
+
+      - name: Deploy to Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USERNAME@$HOST "cd /path/to/your/app && git pull && ./gradlew build && sudo systemctl restart your-app-service"
