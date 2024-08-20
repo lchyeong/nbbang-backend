@@ -12,13 +12,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserEmailProvider {
 
-    @Qualifier("userMailSender")
     private final JavaMailSender userMailSender;
 
-    @Value("${mail.user.from}")
+    @Value("${mail_user_from}")
     private String fromAddress;
 
-    @Value("${mail.user.from.name}")
+    @Value("${mail_user_from_name}")
     private String fromName;
 
     private final String SUBJECT = "[N/BBANG] 인증메일입니다.";
