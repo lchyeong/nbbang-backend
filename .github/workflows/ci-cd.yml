@@ -34,6 +34,6 @@ jobs:
             cd /var/www/nbbang-be
             git pull origin main
             ./gradlew build --exclude-task test
-            java -jar build/libs/nbbang-0.0.1-SNAPSHOT.jar &
+            nohup java -jar build/libs/nbbang-0.0.1-SNAPSHOT.jar &
           EOF
           rm private_key.pem
