@@ -28,9 +28,12 @@ jobs:
           USERNAME: ${{ secrets.SERVER_USER }}
           PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          ssh -i $PRIVATE_KEY $USERNAME@$HOST << 'EOF'
-          cd /var/www/nbbang-be
-          git pull origin main
-          ./gradlew build --exclude-task test
-          java -jar build/libs/nbbang-0.0.1-SNAPSHOT.jar &
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $USERNAME@$HOST << 'EOF'
+            cd /var/www/nbbang-be
+            git pull origin main
+            ./gradlew build --exclude-task test
+            java -jar build/libs/nbbang-0.0.1-SNAPSHOT.jar &
           EOF
+          rm private_key.pem
