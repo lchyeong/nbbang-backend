@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Lazy;
 @EnableEncryptableProperties
 public class EncryptUtils {
 
-    @Value("${JASYPT_PASSWORD}")
+    @Value("${jasypt.encryptor.password}")
     String password;
 
     private final StringEncryptor encryptor;
