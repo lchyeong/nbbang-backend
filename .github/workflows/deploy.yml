@@ -60,7 +60,7 @@ jobs:
 
             # 새로운 컨테이너 실행
             cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d nbbang-be
+            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d app
 
             # nbbang 컨테이너에 자동 재시작 설정
             echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang-be
