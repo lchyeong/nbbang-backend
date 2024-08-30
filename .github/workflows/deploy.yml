@@ -54,15 +54,15 @@ jobs:
 
             # 기존 www-app-1 컨테이너 중지 및 제거
             if [ "$(sudo docker ps -q -f name=www-app-1)" ]; then
-              echo "$SSH_PASSWORD" | sudo -S docker stop www-app-1
-              echo "$SSH_PASSWORD" | sudo -S docker rm www-app-1
+              echo "$SSH_PASSWORD" | sudo -S docker stop nbbang-be
+              echo "$SSH_PASSWORD" | sudo -S docker rm nbbang-be
             fi
 
             # 새로운 컨테이너 실행
             cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d www-app-1
+            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d nbbang-be
 
             # nbbang 컨테이너에 자동 재시작 설정
-            echo "$SSH_PASSWORD" | sudo -S docker update --restart always www-app-1
+            echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang-be
           EOF
           rm private_key.pem

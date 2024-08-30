@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app:
     image: "chany91/nbbang:latest"
+    container_name: nbbang-be
     ports:
       - "8080:8080"
     env_file:
