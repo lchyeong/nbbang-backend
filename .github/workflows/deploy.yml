@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $USERNAME@$HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i private_key.pem -t $USERNAME@$HOST << 'EOF'
             # 새로운 컨테이너 실행 (새로운 포트 사용) 임시이름 사용
             NEW_CONTAINER_ID=$(sudo docker run -d -p 8081:8080 --name nbbang_new --env-file /var/www/nbbang-be/.env ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest)
           
