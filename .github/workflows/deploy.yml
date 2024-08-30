@@ -53,7 +53,7 @@ jobs:
             fi
 
             # 기존 www-app-1 컨테이너 중지 및 제거
-            if [ "$(sudo docker ps -q -f name=www-app-1)" ]; then
+            if [ "$(sudo docker ps -q -f name=nbbang-be)" ]; then
               echo "$SSH_PASSWORD" | sudo -S docker stop nbbang-be
               echo "$SSH_PASSWORD" | sudo -S docker rm nbbang-be
             fi
