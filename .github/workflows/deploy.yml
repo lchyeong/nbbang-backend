@@ -44,7 +44,15 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $USERNAME@$HOST <<EOF
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
           
-            # 기존 컨테이너 중지 및 제거
+            # Redis 컨테이너가 실행 중인지 확인
+            if [ "$(sudo docker ps -q -f name=redis-server-new)" ]; then
+              echo "Redis 컨테이너가 이미 실행 중입니다. 재사용합니다."
+            else
+              echo "Redis 컨테이너가 실행 중이 아닙니다. 새로 실행합니다."
+              echo "$SSH_PASSWORD" | sudo -S docker-compose up -d redis-server-new
+            fi
+
+            # 기존 nbbang 컨테이너 중지 및 제거
             if [ "$(sudo docker ps -q -f name=nbbang)" ]; then
               echo "$SSH_PASSWORD" | sudo -S docker stop nbbang
               echo "$SSH_PASSWORD" | sudo -S docker rm nbbang
@@ -52,8 +60,9 @@ jobs:
 
             # 새로운 컨테이너 실행
             cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d
+            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d www-app-1
 
-            echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang
+            # nbbang 컨테이너에 자동 재시작 설정
+            echo "$SSH_PASSWORD" | sudo -S docker update --restart always www-app-1
           EOF
           rm private_key.pem
