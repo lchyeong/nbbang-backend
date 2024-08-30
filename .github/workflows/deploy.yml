@@ -51,6 +51,7 @@ jobs:
             fi
 
             # 새로운 컨테이너 실행
+            cd /var/www
             echo "$SSH_PASSWORD" | sudo -S docker-compose up -d
 
             echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang
