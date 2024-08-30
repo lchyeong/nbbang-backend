@@ -20,7 +20,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
@@ -39,24 +39,24 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem -t $USERNAME@$HOST << 'EOF'
-            # 새로운 컨테이너 실행 (새로운 포트 사용) 임시이름 사용
-            NEW_CONTAINER_ID=$(sudo docker run -d -p 8081:8080 --name nbbang_new --env-file /var/www/nbbang-be/.env ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest)
-          
+            # 새로운 컨테이너 실행 (임시 포트 사용)
+            NEW_CONTAINER_ID=$(sudo docker run -d -p 8081:8080 --name nbbang_temp --env-file /var/www/nbbang-be/.env ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest)
+
             # 새로운 컨테이너가 정상적으로 실행 중인지 확인
-            sleep 10  # 컨테이너가 완전히 시작될 때까지 기다립니다.
-            if [ $(sudo docker inspect -f '{{.State.Running}}' nbbang_new) = "true" ]; then
+            sleep 10  # 컨테이너가 완전히 시작될 때까지 대기
+            if [ "$(sudo docker inspect -f '{{.State.Running}}' nbbang_temp)" = "true" ]; then
               # 기존 컨테이너 중지 및 제거
-              if [ $(sudo docker ps -q -f name=nbbang) ]; then
+              if [ "$(sudo docker ps -q -f name=nbbang)" ]; then
                 sudo docker stop nbbang
                 sudo docker rm nbbang
               fi
-          
-              # 새로운 컨테이너를 기존 포트로 변경 이름도 변경
-              sudo docker rename nbbang_new nbbang
+
+              # 임시 컨테이너 이름 변경
+              sudo docker rename nbbang_temp nbbang
               sudo docker update --restart always nbbang
             else
               # 새로운 컨테이너가 실패한 경우 롤백
-              sudo docker rm -f nbbang_new
+              sudo docker rm -f nbbang_temp
               echo "New container failed to start, rollback to the existing one"
               exit 1
             fi
