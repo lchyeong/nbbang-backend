@@ -1,27 +1,29 @@
-FROM amazoncorretto:17 AS builder
+# 1. Build stage
+FROM gradle:7.6.0-jdk17 AS build
+
+# 컨테이너 내 작업 디렉토리 설정
 WORKDIR /app
 
-COPY ./gradlew .
-COPY ./gradle ./gradle
-COPY ./build.gradle .
-COPY ./settings.gradle .
-COPY ./src ./src
-COPY .env ./
+# 프로젝트의 모든 파일을 컨테이너로 복사
+COPY . .
 
-# gradlew 실행권한 부여
-RUN chmod +x ./gradlew
+# 애플리케이션 빌드
+RUN ./gradlew build -x test --no-daemon
 
-# jar 파일 생성
-RUN ./gradlew clean bootJar
+# 2. Runtime stage
+FROM openjdk:17-jdk-slim
 
-FROM amazoncorretto:17
+# 컨테이너 내 작업 디렉토리 설정
 WORKDIR /app
-COPY --from=builder /app/build/libs/nbbang-0.0.1-SNAPSHOT.jar app.jar
-COPY .env ./
+
+# 빌드한 JAR 파일을 가져와서 컨테이너로 복사
+COPY --from=build /app/build/libs/nbbang-0.0.1-SNAPSHOT.jar /app/nbbang.jar
+
+# .env 파일을 컨테이너의 작업 디렉토리로 복사
+COPY .env /app/.env
+
+# 애플리케이션이 사용할 포트 노출
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# docker build -t kimhyeonpil/springboot-image .
-# docker push kimhyeonpil/springboot-image
-# docker pull kimhyeonpil/springboot-image
-# docker run -d -p 8080:8080 --name springboot-server kimhyeonpil/springboot-image
+# 컨테이너 시작 시 실행할 명령어 설정
+CMD ["java", "-jar", "/app/nbbang.jar"]
