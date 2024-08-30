@@ -41,6 +41,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
+          scp -i private_key.pem .env $USERNAME@$HOST:/var/www/nbbang-be/.env
           ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $USERNAME@$HOST <<EOF
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
           
@@ -51,7 +52,7 @@ jobs:
             fi
 
             # 새로운 컨테이너 실행
-            echo "$SSH_PASSWORD" | sudo -S docker run -d -p 8080:8080 --name nbbang --env-file /var/www/nbbang-be/.env ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
+            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d
 
             echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang
           EOF
