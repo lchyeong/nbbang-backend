@@ -16,6 +16,9 @@ FROM openjdk:17-jdk-slim
 # 컨테이너 내 작업 디렉토리 설정
 WORKDIR /app
 
+# curl 설치
+RUN apt-get update && apt-get install -y curl
+
 # 빌드한 JAR 파일을 가져와서 컨테이너로 복사
 COPY --from=build /app/build/libs/nbbang-0.0.1-SNAPSHOT.jar /app/nbbang.jar
 
