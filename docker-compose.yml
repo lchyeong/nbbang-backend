@@ -1,11 +1,29 @@
 version: '3.8'
 
 services:
-  app:
+  backend:
     image: "chany91/nbbang:latest"
     container_name: nbbang-be
     ports:
-      - "8081:8080"
+      - "8080:8080" # 기본 백엔드 포트
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${db_url}
+      - SPRING_DATASOURCE_USERNAME=${db_user}
+      - SPRING_DATASOURCE_PASSWORD=${db_password}
+      - SPRING_REDIS_HOST=${redis_host}
+      - SPRING_REDIS_PORT=${redis_port}
+    networks:
+      - nbbang-network
+    depends_on:
+      - redis
+
+  backend_new:
+    image: "chany91/nbbang:latest"
+    container_name: nbbang-be-new
+    ports:
+      - "8081:8080" # 새로운 백엔드 포트
     env_file:
       - .env
     environment:
@@ -29,7 +47,15 @@ services:
     image: "chany91/nbbang-fe:latest"
     container_name: nbbang-fe
     ports:
-      - "3001:3000"
+      - "3000:3000" # 기본 프론트엔드 포트
+    networks:
+      - nbbang-network
+
+  frontend_new:
+    image: "chany91/nbbang-fe:latest"
+    container_name: nbbang-fe-new
+    ports:
+      - "3001:3000" # 새로운 프론트엔드 포트
     networks:
       - nbbang-network
 

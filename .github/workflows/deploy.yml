@@ -46,20 +46,20 @@ jobs:
 
             # 새로운 백엔드 인스턴스를 Docker Compose로 시작
             cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d app_new
+            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d backend_new
 
             # Nginx 설정에서 새로운 인스턴스로 트래픽 전환
             echo "$SSH_PASSWORD" | sudo -S sed -i 's/127.0.0.1:8080;/127.0.0.1:8081;/' /etc/nginx/sites-available/default
             echo "$SSH_PASSWORD" | sudo -S systemctl reload nginx
 
             # 기존 백엔드 컨테이너 정리
-            echo "$SSH_PASSWORD" | sudo -S docker-compose stop app
-            echo "$SSH_PASSWORD" | sudo -S docker-compose rm -f app
+            echo "$SSH_PASSWORD" | sudo -S docker-compose stop backend
+            echo "$SSH_PASSWORD" | sudo -S docker-compose rm -f backend
 
-            # 새 백엔드 인스턴스 이름 변경 (선택 사항)
+            # 새 백엔드 인스턴스 이름 변경
             echo "$SSH_PASSWORD" | sudo -S docker rename nbbang-be-new nbbang-be
 
-            # Nginx 설정 원복
+            # Nginx 설정 원복 (선택 사항)
             echo "$SSH_PASSWORD" | sudo -S sed -i 's/127.0.0.1:8081;/127.0.0.1:8080;/' /etc/nginx/sites-available/default
             echo "$SSH_PASSWORD" | sudo -S systemctl reload nginx
 
