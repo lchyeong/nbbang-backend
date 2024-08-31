@@ -18,10 +18,10 @@ public class NbbangApplication {
 
 	public static void main(String[] args) {
 //		환경변수를 복제하는게 아니라 참조만하는 것이기 때문에 해당 코드는 필요없음 로컬에선필요함...
-		Dotenv dotenv = Dotenv.load();
-		dotenv.entries().forEach(entry -> {
-			System.setProperty(entry.getKey(), entry.getValue());
-		});
+//		Dotenv dotenv = Dotenv.load();
+//		dotenv.entries().forEach(entry -> {
+//			System.setProperty(entry.getKey(), entry.getValue());
+//		});
 
 		SpringApplication.run(NbbangApplication.class, args);
 	}
