@@ -48,7 +48,9 @@ jobs:
             if curl -f http://127.0.0.1:8080/health; then
               echo "8080 포트가 사용 중입니다. 8081로 새 컨테이너 시작."
               sudo docker-compose up -d backend_new
-          
+              
+              #애플리케이션 실행될 시간 주기
+              sleep 15
               # 새로운 컨테이너가 정상적으로 실행되었는지 확인
               if ! curl -f http://127.0.0.1:8081/health; then
                 echo "새로운 백엔드 인스턴스 시작 실패"
