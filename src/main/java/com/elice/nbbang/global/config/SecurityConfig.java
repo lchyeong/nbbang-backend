@@ -99,7 +99,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://nbbang-fe:3001", "http://localhost:3000", "http://nbbang-fe:3000","http://kdt-cloud-3-team01-final.elicecoding.com","http://34.22.95.119", "http://localhost"));
+        configuration.setAllowedOrigins(Arrays.asList("http://nbbang-fe:3001", "http://localhost:3000", "http://nbbang-fe:3000","http://kdt-cloud-3-team01-final.elicecoding.com","http://34.22.95.119", "http://localhost","https://nbbang.site"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("access", "Cache-Control", "Content-Type", "Authorization"));
         configuration.setExposedHeaders(List.of("access"));
