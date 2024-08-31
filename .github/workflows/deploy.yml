@@ -43,32 +43,36 @@ jobs:
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $USERNAME@$HOST <<EOF
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
+          
+            # 8080 포트 체크
+            if curl -f http://127.0.0.1:8080/health; then
+              echo "8080 포트가 사용 중입니다. 8081로 새 컨테이너 시작."
+              sudo docker-compose up -d backend_new
+          
+              # 새로운 컨테이너가 정상적으로 실행되었는지 확인
+              if ! curl -f http://127.0.0.1:8081/health; then
+                echo "새로운 백엔드 인스턴스 시작 실패"
+                exit 1
+              fi
+          
+              # 기존 8080 컨테이너 중지 및 제거
+              sudo docker-compose stop backend
+              sudo docker-compose rm -f backend
 
-            # 새로운 백엔드 인스턴스를 Docker Compose로 시작
-            cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d backend_new
+              # 8081 컨테이너를 8080으로 전환
+              sudo docker rename nbbang-be-new nbbang-be
+              sudo sed -i 's/127.0.0.1:8081;/127.0.0.1:8080;/' /etc/nginx/sites-available/default
+              sudo systemctl reload nginx
 
-            # 새로운 백엔드 인스턴스가 정상적으로 작동하는지 확인
-            sleep 10 # (필요에 따라 이 시간을 조정 가능)
-            if ! curl -f http://127.0.0.1:8081/health; then
-              echo "New backend instance failed to start."
-              exit 1
+            else
+              echo "8080 포트가 사용되지 않음. 8080으로 새 컨테이너 시작."
+              sudo docker-compose up -d backend
+
+              # 새 컨테이너가 정상적으로 실행되었는지 확인
+              if ! curl -f http://127.0.0.1:8080/health; then
+                echo "새 백엔드 인스턴스 시작 실패"
+                exit 1
+              fi
             fi
-
-            # Nginx 설정에서 새로운 인스턴스로 트래픽 전환
-            echo "$SSH_PASSWORD" | sudo -S sed -i 's/127.0.0.1:8080;/127.0.0.1:8081;/' /etc/nginx/sites-available/default
-            echo "$SSH_PASSWORD" | sudo -S systemctl reload nginx
-
-            # 기존 백엔드 컨테이너 정리
-            echo "$SSH_PASSWORD" | sudo -S docker-compose stop backend
-            echo "$SSH_PASSWORD" | sudo -S docker-compose rm -f backend
-
-            # 새 백엔드 인스턴스 이름 변경
-            echo "$SSH_PASSWORD" | sudo -S docker rename nbbang-be-new nbbang-be
-
-            # Nginx 설정 원복 (선택 사항)
-            echo "$SSH_PASSWORD" | sudo -S sed -i 's/127.0.0.1:8081;/127.0.0.1:8080;/' /etc/nginx/sites-available/default
-            echo "$SSH_PASSWORD" | sudo -S systemctl reload nginx
-
           EOF
           rm private_key.pem
