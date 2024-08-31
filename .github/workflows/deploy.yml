@@ -45,24 +45,34 @@ jobs:
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
           
             cd /var/www
-            
+          
             # 8080 포트 체크
             if curl -f http://127.0.0.1:8080/health; then
               echo "8080 포트가 사용 중입니다. 8081로 새 컨테이너 시작."
               sudo docker-compose up -d backend_new
-              
+          
               #애플리케이션 실행될 시간 주기
               sleep 70
               # 새로운 컨테이너가 정상적으로 실행되었는지 확인
-              if ! curl -f http://127.0.0.1:8081/health; then
+              if curl -f http://127.0.0.1:8081/health; then
+                echo "새 백엔드 인스턴스가 8081에서 정상적으로 실행 중입니다. 8080 컨테이너를 중지하고 제거합니다."
+          
+                # 기존 8080 컨테이너 중지 및 제거
+                sudo docker-compose stop backend
+                sudo docker-compose rm -f backend
+
+                echo "8081 컨테이너를 8080으로 변경합니다."
+          
+                # 8081에서 실행 중인 컨테이너를 8080으로 변경
+                sudo docker-compose stop backend_new
+                sudo sed -i 's/8081:8080/8080:8080/' docker-compose.yml
+                sudo docker-compose up -d backend_new
+                sudo docker-compose rename backend_new backend
+
+              else
                 echo "새로운 백엔드 인스턴스 시작 실패"
                 exit 1
               fi
-          
-              # 기존 8080 컨테이너 중지 및 제거
-              sudo docker-compose stop backend
-              sudo docker-compose rm -f backend
-
             else
               echo "8080 포트가 사용되지 않음. 8080으로 새 컨테이너 시작."
               sudo docker-compose up -d backend
