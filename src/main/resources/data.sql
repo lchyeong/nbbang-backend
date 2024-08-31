@@ -1,31 +1,31 @@
 -- 유저 데이터 삽입
-INSERT INTO user (user_id, nickname, email, password, phone_number, role, deleted)
+INSERT INTO user (user_id, nickname, email, password, phone_number, role, deleted, created_at, modified_at)
 VALUES
-    (1, '드디어끝났다', 'user1@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (2, '행복한하루', 'user2@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (3, '빛나는별', 'user3@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (4, '작은행복', 'user4@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (5, '바람속의소리', 'user5@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (6, '따뜻한햇살', 'user6@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (7, '고요한바다', 'user7@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (8, '사랑스러운미소', 'user8@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (9, '기분좋은하루', 'user9@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (10, '웃음꽃피는', 'user10@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (11, '하늘아래', 'user11@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (12, '별빛가득한밤', 'user12@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (13, '따뜻한손길', 'user13@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (14, '맑은샘물', 'user14@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (15, '소중한사람', 'user15@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (16, '반짝이는눈빛', 'user16@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (17, '노을속으로', 'user17@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (18, '따뜻한눈빛', 'user18@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (19, '설레는마음', 'user19@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false),
-    (20, '자유로운영혼', 'user20@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false),
-    (21, '관리자1', 'admin1@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000000', 'ROLE_ADMIN', false),
-    (22, '관리자2', 'admin2@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000001', 'ROLE_ADMIN', false),
-    (23, '관리자3', 'admin3@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000002', 'ROLE_ADMIN', false),
-    (24, '관리자4', 'admin4@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000003', 'ROLE_ADMIN', false),
-    (25, '관리자5', 'admin5@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000004', 'ROLE_ADMIN', false);
+    (1, '드디어끝났다', 'user1@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (2, '행복한하루', 'user2@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (3, '빛나는별', 'user3@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (4, '작은행복', 'user4@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (5, '바람속의소리', 'user5@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (6, '따뜻한햇살', 'user6@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (7, '고요한바다', 'user7@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (8, '사랑스러운미소', 'user8@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (9, '기분좋은하루', 'user9@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (10, '웃음꽃피는', 'user10@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (11, '하늘아래', 'user11@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (12, '별빛가득한밤', 'user12@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (13, '따뜻한손길', 'user13@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (14, '맑은샘물', 'user14@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (15, '소중한사람', 'user15@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (16, '반짝이는눈빛', 'user16@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (17, '노을속으로', 'user17@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (18, '따뜻한눈빛', 'user18@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (19, '설레는마음', 'user19@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01012345678', 'ROLE_USER', false, NOW(), NOW()),
+    (20, '자유로운영혼', 'user20@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '01087654321', 'ROLE_USER', false, NOW(), NOW()),
+    (21, '관리자1', 'admin1@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000000', 'ROLE_ADMIN', false, NOW(), NOW()),
+    (22, '관리자2', 'admin2@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000001', 'ROLE_ADMIN', false, NOW(), NOW()),
+    (23, '관리자3', 'admin3@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000002', 'ROLE_ADMIN', false, NOW(), NOW()),
+    (24, '관리자4', 'admin4@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000003', 'ROLE_ADMIN', false, NOW(), NOW()),
+    (25, '관리자5', 'admin5@a.com', '$2a$10$KJKrxz3GsgCt0cAiSpz/dOENvDhPp76uN4j4s6YF6Lq92yma9JplS', '0100000004', 'ROLE_ADMIN', false, NOW(), NOW());
 
 
 
@@ -37,23 +37,23 @@ INSERT INTO ott (ott_id, name, price, capacity) VALUES
 (4, 'Watcha', 7900, 4),
 (5, 'Wavve', 10900, 4);
 
-
--- 초기 파티 데이터 설정
-INSERT INTO party (party_id, ott_id, ott_account_id, ott_account_password, party_status, leader_id) VALUES
-(1, 1, 'netflix_user@example.com', 'netflixpass', 'AVAILABLE', 1),
-(2, 2, 'disney_user@example.com', 'disneypass', 'AVAILABLE', 2),
-(3, 3, 'prime_user@example.com', 'primepass', 'AVAILABLE', 2),
-(4, 4, 'watcha_user@example.com', 'watchapass', 'AVAILABLE', 3),
-(5, 5, 'wave_user@example.com', 'wavepass', 'AVAILABLE', 4);
-
--- 초기 파티 멤버 데이터 설정
-INSERT INTO party_member (party_member_id, user_id, party_id, ott_id, join_date) VALUES
-(1, 1, 1, 1, '2024-08-01 00:00:00'),
-(2, 2, 1, 1, '2024-08-01 00:00:00'),
-(3, 3, 2, 2, '2024-08-01 00:00:00'),
-(4, 1, 3, 3, '2024-08-01 00:00:00'),
-(5, 2, 4, 4, '2024-08-01 00:00:00'),
-(6, 3, 5, 5, '2024-08-01 00:00:00');
+--
+-- -- 초기 파티 데이터 설정
+-- INSERT INTO party (party_id, ott_id, ott_account_id, ott_account_password, party_status, leader_id) VALUES
+-- (1, 1, 'netflix_user@example.com', 'netflixpass', 'AVAILABLE', 1),
+-- (2, 2, 'disney_user@example.com', 'disneypass', 'AVAILABLE', 2),
+-- (3, 3, 'prime_user@example.com', 'primepass', 'AVAILABLE', 2),
+-- (4, 4, 'watcha_user@example.com', 'watchapass', 'AVAILABLE', 3),
+-- (5, 5, 'wave_user@example.com', 'wavepass', 'AVAILABLE', 4);
+--
+-- -- 초기 파티 멤버 데이터 설정
+-- INSERT INTO party_member (party_member_id, user_id, party_id, ott_id, join_date) VALUES
+-- (1, 1, 1, 1, '2024-08-01 00:00:00'),
+-- (2, 2, 1, 1, '2024-08-01 00:00:00'),
+-- (3, 3, 2, 2, '2024-08-01 00:00:00'),
+-- (4, 1, 3, 3, '2024-08-01 00:00:00'),
+-- (5, 2, 4, 4, '2024-08-01 00:00:00'),
+-- (6, 3, 5, 5, '2024-08-01 00:00:00');
 
 --
 -- INSERT INTO payment (user_id, payment_type, partner_user_id, partner_order_id, amount, status, cid, tid, ott_id, installment_number) VALUES
