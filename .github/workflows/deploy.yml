@@ -44,6 +44,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $USERNAME@$HOST <<EOF
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
           
+            cd /var/www
+            
             # 8080 포트 체크
             if curl -f http://127.0.0.1:8080/health; then
               echo "8080 포트가 사용 중입니다. 8081로 새 컨테이너 시작."
