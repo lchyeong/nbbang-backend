@@ -52,37 +52,56 @@ jobs:
               sudo docker-compose up -d backend_new
           
               #애플리케이션 실행될 시간 주기
-              sleep 70
-              # 새로운 컨테이너가 정상적으로 실행되었는지 확인
-              if curl -f http://127.0.0.1:8081/health; then
-                echo "새 백엔드 인스턴스가 8081에서 정상적으로 실행 중입니다. 8080 컨테이너를 중지하고 제거합니다."
-          
-                # 기존 8080 컨테이너 중지 및 제거
-                sudo docker-compose stop backend
-                sudo docker-compose rm -f backend
+              sleep 60
 
-                echo "8081 컨테이너를 8080으로 변경합니다."
+              # 새로운 컨테이너가 정상적으로 실행되었는지 확인 (최대 5회 재시도)
+              for i in {1..5}; do
+                if curl -f http://127.0.0.1:8081/health; then
+                  echo "새 백엔드 인스턴스가 8081에서 정상적으로 실행 중입니다. 8080 컨테이너를 중지하고 제거합니다."
           
-                # 8081에서 실행 중인 컨테이너를 8080으로 변경
-                sudo docker-compose stop backend_new
-                sudo sed -i 's/8081:8080/8080:8080/' docker-compose.yml
-                sudo docker-compose up -d backend_new
-                sudo docker-compose rename backend_new backend
+                  # 기존 8080 컨테이너 중지 및 제거
+                  sudo docker-compose stop backend
+                  sudo docker-compose rm -f backend
 
-              else
-                echo "새로운 백엔드 인스턴스 시작 실패"
-                exit 1
-              fi
+                  echo "8081 컨테이너를 8080으로 변경합니다."
+          
+                  # 8081에서 실행 중인 컨테이너를 8080으로 변경
+                  sudo docker-compose stop backend_new
+                  sudo sed -i 's/8081:8080/8080:8080/' docker-compose.yml
+                  sudo docker-compose up -d backend_new
+                  sudo docker-compose rename backend_new backend
+                  break
+                else
+                  echo "백엔드 인스턴스가 아직 실행되지 않았습니다. 60초 후에 다시 확인합니다. ($i/5)"
+                  sleep 60
+                fi
+
+                if [ $i -eq 5 ]; then
+                  echo "새로운 백엔드 인스턴스 시작 실패"
+                  exit 1
+                fi
+              done
             else
               echo "8080 포트가 사용되지 않음. 8080으로 새 컨테이너 시작."
               sudo docker-compose up -d backend
 
               sleep 70
-              # 새 컨테이너가 정상적으로 실행되었는지 확인
-              if ! curl -f http://127.0.0.1:8080/health; then
-                echo "새 백엔드 인스턴스 시작 실패"
-                exit 1
-              fi
+
+              # 새 컨테이너가 정상적으로 실행되었는지 확인 (최대 5회 재시도)
+              for i in {1..5}; do
+                if curl -f http://127.0.0.1:8080/health; then
+                  echo "새 백엔드 인스턴스가 8080에서 정상적으로 실행 중입니다."
+                  break
+                else
+                  echo "백엔드 인스턴스가 아직 실행되지 않았습니다. 60초 후에 다시 확인합니다. ($i/5)"
+                  sleep 60
+                fi
+
+                if [ $i -eq 5 ]; then
+                  echo "새 백엔드 인스턴스 시작 실패"
+                  exit 1
+                fi
+              done
             fi
           EOF
           rm private_key.pem
