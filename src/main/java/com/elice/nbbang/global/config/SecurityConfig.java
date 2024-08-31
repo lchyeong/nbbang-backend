@@ -22,11 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -101,7 +99,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://nbbang-fe:3001", "http://localhost:3000", "http://nbbang-fe:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://nbbang-fe:3001", "http://localhost:3000", "http://nbbang-fe:3000","http://kdt-cloud-3-team01-final.elicecoding.com","http://34.22.95.119"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("access", "Cache-Control", "Content-Type", "Authorization"));
         configuration.setExposedHeaders(List.of("access"));
