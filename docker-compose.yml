@@ -25,6 +25,14 @@ services:
     networks:
       - nbbang-network
 
+  frontend:
+    image: "chany91/nbbang-fe:latest"
+    container_name: nbbang-fe
+    ports:
+      - "80:3000"
+    networks:
+      - nbbang-network
+
 networks:
   nbbang-network:
     name: nbbang-network

@@ -43,6 +43,7 @@ jobs:
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem -tt $USERNAME@$HOST <<EOF
             echo "$SSH_PASSWORD" | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
+            echo "$SSH_PASSWORD" | sudo -S docker pull chany91/nbbang-fe:latest
           
             # Redis 컨테이너가 실행 중인지 확인
             if [ "$(sudo docker ps -q -f name=redis-server-new)" ]; then
@@ -52,17 +53,26 @@ jobs:
               echo "$SSH_PASSWORD" | sudo -S docker-compose up -d redis-server-new
             fi
 
-            # 기존 www-app-1 컨테이너 중지 및 제거
+            # 새로운 백엔드 컨테이너 실행
+            echo "$SSH_PASSWORD" | sudo -S docker run -d --name nbbang-be-new -p 8081:8080 --network nbbang-network ${{ secrets.DOCKER_HUB_USERNAME }}/nbbang:latest
+
+            # 새로운 프론트엔드 컨테이너 실행
+            echo "$SSH_PASSWORD" | sudo -S docker run -d --name nbbang-fe-new -p 3001:3000 --network nbbang-network chany91/nbbang-fe:latest
+
+            # 확인 후 기존 컨테이너 중지 및 제거
             if [ "$(sudo docker ps -q -f name=nbbang-be)" ]; then
               echo "$SSH_PASSWORD" | sudo -S docker stop nbbang-be
               echo "$SSH_PASSWORD" | sudo -S docker rm nbbang-be
+              echo "$SSH_PASSWORD" | sudo -S docker rename nbbang-be-new nbbang-be
+              echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang-be
             fi
 
-            # 새로운 컨테이너 실행
-            cd /var/www
-            echo "$SSH_PASSWORD" | sudo -S docker-compose up -d app
+            if [ "$(sudo docker ps -q -f name=nbbang-fe)" ]; then
+              echo "$SSH_PASSWORD" | sudo -S docker stop nbbang-fe
+              echo "$SSH_PASSWORD" | sudo -S docker rm nbbang-fe
+              echo "$SSH_PASSWORD" | sudo -S docker rename nbbang-fe-new nbbang-fe
+              echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang-fe
+            fi
 
-            # nbbang 컨테이너에 자동 재시작 설정
-            echo "$SSH_PASSWORD" | sudo -S docker update --restart always nbbang-be
           EOF
           rm private_key.pem
