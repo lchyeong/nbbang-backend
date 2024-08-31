@@ -5,7 +5,7 @@ services:
     image: "chany91/nbbang:latest"
     container_name: nbbang-be
     ports:
-      - "8080:8080"
+      - "8081:8080"
     env_file:
       - .env
     environment:
@@ -29,7 +29,7 @@ services:
     image: "chany91/nbbang-fe:latest"
     container_name: nbbang-fe
     ports:
-      - "80:3000"
+      - "3001:3000"
     networks:
       - nbbang-network
 
